@@ -1,2 +1,2 @@
 # php-data
-### Methods for working with data in PHP.
+Methods for working with data in PHP.
