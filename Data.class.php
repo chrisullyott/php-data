@@ -25,9 +25,9 @@ class Data
                 }
 
                 fputcsv($file, $headers);
-            } else {
-                fputcsv($file, $fields);
             }
+
+            fputcsv($file, $fields);
         }
 
         fclose($file);
