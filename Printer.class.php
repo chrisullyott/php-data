@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Display
+ * Printer
  *
  * Methods for printing/visualizing data.
  *
  * @author Chris Ullyott <chris@monkdevelopment.com>
  */
-class Display
+class Printer
 {
     /**
      * Print an associative array as HTML.
@@ -53,6 +53,16 @@ class Display
         }
 
         return $url;
+    }
+    
+    /**
+     * Print an array
+     */
+    public static function printArray(array $array)
+    {
+        foreach ($array as $i) {
+            echo $i . "\n";
+        }
     }
 
 }
