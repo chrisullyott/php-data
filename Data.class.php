@@ -10,6 +10,16 @@
 class Data
 {
     /**
+     * Load and decode JSON data.
+     */
+    public static function jsonFileToArray($file)
+    {
+        $json = file_get_contents($file);
+
+        return json_decode($json, true);
+    }
+
+    /**
      * Create a CSV file from an array of data.
      */
     public static function arrayToCSV($array, $filepath)
@@ -31,6 +41,16 @@ class Data
         }
 
         fclose($file);
+
+        return;
+    }
+
+    /**
+     * Save a CSV file from a JSON string.
+     */
+    public static function jsonToCSV($json, $filepath) {
+        $array = json_decode($json, true);
+        self::arrayToCSV($array, $filepath);
 
         return;
     }
@@ -100,6 +120,11 @@ class Data
         }
 
         return $parsedData;
+    }
+
+    public static function explodeCSL($commaSeparatedList) {
+        $array = explode(',', $commaSeparatedList);
+        return $siteIdsToAdd = array_filter(array_map('trim', $array));
     }
 
 }
