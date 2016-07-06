@@ -10,16 +10,6 @@
 class File
 {
     /**
-     * Load and decode JSON data.
-     */
-    public static function jsonFileToArray($file)
-    {
-        $json = file_get_contents($file);
-
-        return json_decode($json, true);
-    }
-
-    /**
      * Write a full path from a list of parts
      */
     public static function path()
