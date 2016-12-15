@@ -10,7 +10,9 @@
 class File
 {
     /**
-     * Write a full path from a list of parts
+     * Write a full path from a list of parts (passed in as array arguments).
+     *
+     * @return string
      */
     public static function path()
     {

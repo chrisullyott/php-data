@@ -1,2 +1,4 @@
-# php-data
-Methods for working with data in PHP.
+php-data
+========
+
+A library of methods for working with data in PHP.

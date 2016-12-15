@@ -3,14 +3,14 @@
 /**
  * Data
  *
- * Methods for loading/parsing data.
+ * Methods for reading/writing data.
  *
  * @author Chris Ullyott <chris@monkdevelopment.com>
  */
 class Data
 {
     /**
-     * Load and decode JSON data.
+     * Read a JSON file into an array.
      */
     public static function jsonFileToArray($file)
     {
@@ -20,45 +20,19 @@ class Data
     }
 
     /**
-     * Create a CSV file from an array of data.
+     * Read a newline-delimited file into an array.
      */
-    public static function arrayToCSV($array, $filepath)
+    public static function listFileToArray($file)
     {
-        $file = fopen($filepath, 'w');
+        $lines = trim(file_get_contents($file));
 
-        foreach ($array as $key => $fields) {
-            if ($key == 0) {
-                $headers = array();
-
-                foreach ($fields as $name => $field) {
-                    $headers[] = $name;
-                }
-
-                fputcsv($file, $headers);
-            }
-
-            fputcsv($file, $fields);
-        }
-
-        fclose($file);
-
-        return;
+        return explode("\n", $lines);
     }
 
     /**
-     * Save a CSV file from a JSON string.
+     * Read a CSV file into an array.
      */
-    public static function jsonToCSV($json, $filepath) {
-        $array = json_decode($json, true);
-        self::arrayToCSV($array, $filepath);
-
-        return;
-    }
-
-    /**
-     * Parse a CSV file into an array
-     */
-    public static function parseCSV($file, $key = '')
+    public static function csvFileToArray($file, $key = '')
     {
         $data = array();
 
@@ -112,7 +86,7 @@ class Data
                 if (!isset($parsedDataWithKeys[$keyValue])) {
                     $parsedDataWithKeys[$keyValue] = $i;
                 } else {
-                    throw new Exception('Values under header ' . $key . ' not unique');
+                    throw new Exception("Values of column \"{$key}\" not unique");
                 }
             }
 
@@ -122,9 +96,79 @@ class Data
         return $parsedData;
     }
 
-    public static function explodeCSL($commaSeparatedList) {
-        $array = explode(',', $commaSeparatedList);
-        return $siteIdsToAdd = array_filter(array_map('trim', $array));
+    /**
+     * Write a JSON file from an array.
+     */
+    public static function arrayToJsonFile($file, $array)
+    {
+        $json = json_encode($array);
+
+        return file_put_contents($file, $json);
+    }
+
+    /**
+     * Write a CSV file from an array.
+     */
+    public static function arrayToCsvFile($array, $filepath)
+    {
+        $file = fopen($filepath, 'w');
+
+        // Get all key names
+        $keys = array();
+
+        foreach ($array as $key => $item) {
+            foreach ($item as $k => $i) {
+                if (!in_array($k, $keys)) {
+                    $keys[] = $k;
+                }
+            }
+        }
+
+        $keys = array_values($keys);
+
+        // Standardize array using all known keys
+        foreach ($array as $key => $item) {
+            $newItem = array();
+
+            foreach ($keys as $k) {
+                $value = !empty($item[$k]) ? $item[$k] : '';
+                $newItem[$k] = $value;
+            }
+
+            $array[$key] = $newItem;
+        }
+
+        // Write headers
+        fputcsv($file, $keys);
+
+        // Write lines
+        foreach ($array as $item) {
+            fputcsv($file, array_values($item));
+        }
+
+        fclose($file);
+
+        return;
+    }
+
+    /**
+     * Write a CSV file from a JSON string.
+     */
+    public static function jsonToCsvFile($json, $filepath)
+    {
+        return self::arrayToCsvFile(json_decode($json, true), $filepath);
+    }
+
+    /**
+     * Get a filtered array of values from a comma-separated list
+     */
+    public static function explodeList($csl)
+    {
+        $arr = explode(',', $csl);
+        $arr = array_map('trim', $arr);
+        $arr = array_filter($arr);
+
+        return array_values($arr);
     }
 
 }

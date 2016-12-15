@@ -18,11 +18,7 @@ class Printer
         foreach ($array as $k => $i) {
             $data .= '<tr>';
             $data .= '<td class="key">' . $k . '</td>';
-            if ($k=='web_address') {
-                $data .= '<td>' . self::makeLink($i, true) . '</td>';
-            } else {
-                $data .= '<td>' . $i . '</td>';
-            }
+            $data .= '<td>' . $i . '</td>';
             $data .= '</tr>';
         }
 
@@ -54,7 +50,7 @@ class Printer
 
         return $url;
     }
-    
+
     /**
      * Print an array
      */
