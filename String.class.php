@@ -41,12 +41,8 @@ class String
 
         $str = '';
 
-        $vowels = array(
-            'A', 'E', 'i', 'O', 'U',
-            'a', 'e', 'i', 'o', 'u'
-        );
-
-        $characters = array_merge(range('A', 'Z'), range('a', 'z'));
+        $vowels = array('a', 'e', 'i', 'o', 'u');
+        $characters = range('a', 'z');
 
         // Half the time, choose only from vowels.
         for ($i = 0; $i < $length; $i++) {
