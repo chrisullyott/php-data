@@ -1,4 +1,4 @@
 PHP Toolkit
 ===========
 
-A library of methods for working with data in PHP.
+Jumpstart a project with this library of helpful methods written in PHP.

@@ -1,0 +1,21 @@
+{
+    "name": "chrisullyott/php-toolkit",
+    "type": "library",
+    "description": "Jumpstart a project with this library of helpful methods written in PHP.",
+    "authors": [
+        {
+            "name": "Chris Ullyott",
+            "email": "contact@chrisullyott.com",
+            "homepage": "http://chrisullyott.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
