@@ -11,8 +11,6 @@ class File
 {
     /**
      * Write a full path from a list of parts (passed in as array arguments).
-     *
-     * @return string
      */
     public static function path()
     {
@@ -27,6 +25,19 @@ class File
         }
 
         return rtrim($path, '/');
+    }
+
+    /**
+     * Copy a given file to another directory.
+     */
+    public static function copy($file, $directory)
+    {
+        $basename = basename($file);
+        $contents = file_get_contents($file);
+
+        $path = rtrim($directory, '/') . '/' . $basename;
+
+        return file_put_contents($path, $contents);
     }
 
     /**

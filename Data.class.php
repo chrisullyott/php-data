@@ -99,11 +99,11 @@ class Data
     /**
      * Write a JSON file from an array.
      */
-    public static function arrayToJsonFile($file, $array)
+    public static function arrayToJsonFile($array, $filepath)
     {
         $json = json_encode($array);
 
-        return file_put_contents($file, $json);
+        return file_put_contents($filepath, $json);
     }
 
     /**

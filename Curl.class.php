@@ -30,4 +30,5 @@ class Curl
 
         return $result;
     }
+
 }

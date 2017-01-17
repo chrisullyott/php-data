@@ -10,10 +10,19 @@
 class Sorter
 {
     /**
-     * Sort a multi-dimensional array by a common key
+     * Sort a multi-dimensional array by a common key value.
+     *
+     * @param  array   &$array   The array to sort (passed by reference)
+     * @param  string  $key      The key to sort by
+     * @param  boolean $reverse  Whether to sort in descending order
+     * @return array
      */
-    public static function sortByKey(&$array, $key, $reverse = false)
+    private static function sortByKey(&$array, $key, $reverse = false)
     {
+        if (!$array) {
+            return;
+        }
+
         $sorter = array();
         $ret = array();
         reset($array);

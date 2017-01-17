@@ -9,6 +9,17 @@
  */
 class Date
 {
+
+    /**
+     * Convert a date string into another format.
+     */
+    public function format($dateString, $format)
+    {
+        $unixTime = strtotime($dateString);
+
+        return date($format, $unixTime);
+    }
+
     /**
      * Find whether "overdue" based on the given due date, and a number of days given
      * to pay. Resets date strings with times into full days, to compare full days
@@ -46,7 +57,7 @@ class Date
     /**
      * Determine whether a date is between two other dates
      */
-    public static function dateIsBetween($date, $start, $end)
+    public static function isBetween($date, $start, $end)
     {
         $dateTime  = strtotime($date);
         $startTime = strtotime($start);
