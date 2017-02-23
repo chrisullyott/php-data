@@ -103,7 +103,7 @@ class String
     /**
      * Generate a string of random characters, optionally including numbers.
      */
-    public static function randomString($length = 10, $includeNumbers = false)
+    public static function random($length = 10, $includeNumbers = false)
     {
         if ($length < 1) {
             throw new Exception('String length must be 1 or greater.');
