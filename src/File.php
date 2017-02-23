@@ -77,6 +77,30 @@ class File
     }
 
     /**
+     * Recursively list all files in a directory of a given filetype.
+     *
+     * @param  string $directory The path to the directory
+     * @param  string $extension A given file extension to filter by
+     * @return array
+     */
+    private static function listDirectory($directory, $extension = 'php')
+    {
+        $dir = new RecursiveDirectoryIterator($directory);
+        $ite = new RecursiveIteratorIterator($dir);
+        $pattern = "/.*\.{$extension}$/";
+
+        $files = new RegexIterator($ite, $pattern, RegexIterator::GET_MATCH);
+
+        $fileList = array();
+
+        foreach ($files as $file) {
+            $fileList = array_merge($fileList, $file);
+        }
+
+        return $fileList;
+    }
+
+    /**
      * Paired with listFiles(), this method deletes the oldest files from a directory
      * and leaves the latest ones alone.
      */
