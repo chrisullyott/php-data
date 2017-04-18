@@ -159,16 +159,4 @@ class Data
         return self::arrayToCsvFile(json_decode($json, true), $filepath);
     }
 
-    /**
-     * Get a filtered array of values from a comma-separated list
-     */
-    public static function explodeList($csl)
-    {
-        $arr = explode(',', $csl);
-        $arr = array_map('trim', $arr);
-        $arr = array_filter($arr);
-
-        return array_values($arr);
-    }
-
 }
