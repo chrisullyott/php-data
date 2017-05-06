@@ -91,6 +91,22 @@ class File
      * Paired with listFiles(), this method deletes the oldest files from a directory
      * and leaves the latest ones alone.
      */
+    public static function deleteDir($dir)
+    {
+        $files = self::listFiles($dir);
+
+        // Delete all
+        foreach ($files as $file) {
+            unlink($file);
+        }
+
+        return rmdir($dir);
+    }
+
+    /**
+     * Paired with listFiles(), this method deletes the oldest files from a directory
+     * and leaves the latest ones alone.
+     */
     public static function deleteFilesExceptLatest($dir)
     {
         $files = self::listFiles($dir);
