@@ -10,67 +10,54 @@
 class File
 {
     /**
-     * Write a full path from a list of parts (passed in as array arguments).
+     * Build a full path from parts passed as arguments.
+     *
+     * @return string
      */
     public static function path()
     {
-        $path = '';
+        $parts = func_get_args();
 
-        foreach (func_get_args() as $key => $p) {
-            if ($key == 0) {
-                $path .= rtrim($p, '/') . '/';
-            } else {
-                $path .= trim($p, '/') . '/';
-            }
+        $sep = DIRECTORY_SEPARATOR;
+
+        $path = rtrim(array_shift($parts), $sep) . $sep;
+
+        foreach ($parts as $p) {
+            $path .= trim($p, $sep) . $sep;
         }
 
-        return rtrim($path, '/');
+        return trim($path, $sep);
     }
 
     /**
-     * Copy a given file to another directory.
+     * Create a directory if it doesn't exist.
+     *
+     * @param  integer $permissions The permissions octal.
+     * @return boolean
      */
-    public static function copy($file, $directory)
+    public static function createDir($path, $permissions = 0777)
     {
-        $basename = basename($file);
-        $contents = file_get_contents($file);
+        if (!is_dir($path)) {
+            return mkdir($path, $permissions, true);
+        }
 
-        $path = rtrim($directory, '/') . '/' . $basename;
-
-        return file_put_contents($path, $contents);
+        return true;
     }
 
     /**
-     * List files in a directory, ordered by their modified time. "ASC" means
-     * "ascending", or, listed by the oldest first.
+     * List files in a directory.
      */
     public static function listFiles($dir, $pattern = '*', $order = 'asc')
     {
         $files = array();
+
         $globPath = rtrim($dir, '/') . '/' . $pattern;
         $fileGlob = glob($globPath);
 
-        // Get all files
         foreach ($fileGlob as $path) {
             if (is_file($path)) {
-                $files[] = array(
-                    'path' => $path,
-                    'time' => filemtime($path)
-                );
+                $files[] = $path;
             }
-        }
-
-        // Sort files by date
-        $times = array();
-
-        foreach ($files as $key => $file) {
-            $times[$key] = $file['time'];
-        }
-
-        if ($order == 'asc') {
-            array_multisort($times, SORT_ASC, $files);
-        } elseif ($order == 'desc') {
-            array_multisort($times, SORT_DESC, $files);
         }
 
         return $files;
