@@ -18,6 +18,10 @@ class Url
      */
     public static function getHostFromUrl($url, $stripWWW = true)
     {
+        if (substr($url, 0, 4) != 'http') {
+            $url = 'http://' . $url;    
+        }
+
         $host = parse_url($url, PHP_URL_HOST);
 
         if ($stripWWW) {
