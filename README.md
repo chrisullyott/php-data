@@ -1,4 +1,22 @@
-PHP Toolkit
-===========
+# PHP Toolkit
 
-Jumpstart a project with this library of helpful methods written in PHP.
+A simple library I use for personal projects.
+
+### Installation
+
+Use [Composer](https://getcomposer.org/). An example `composer.json`:
+
+```
+{
+    "name": "PROJECT_NAME",
+    "require": {
+        "chrisullyott/php-toolkit": "*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/chrisullyott/php-toolkit"
+        }
+    ]
+}
+```
