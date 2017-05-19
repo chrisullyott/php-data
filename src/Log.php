@@ -14,6 +14,15 @@ class Log
         $this->file = $file;
     }
 
+    private static function createDir($path, $permissions = 0777)
+    {
+        if (!is_dir($path)) {
+            return mkdir($path, $permissions, true);
+        }
+
+        return true;
+    }
+
     public function getFile()
     {
         return $this->file;
@@ -44,9 +53,57 @@ class Log
         $array = $this->getAll();
 
         $array[$key] = $value;
-        $json = json_encode($array);
 
-        return self::write($this->getFile(), $json);
+        $this->save($array);
+
+        return $this;
+    }
+
+    public function merge(array $array)
+    {
+       $array = array_merge($this->getAll(), $array);
+
+       $this->save($array);
+
+       return $this;
+    }
+
+    public function delete($key)
+    {
+        $array = $this->getAll();
+
+        if (isset($array[$key])) {
+            unset($array[$key]);
+        }
+
+        $this->save($array);
+
+        return $this;
+    }
+
+    public function deleteValue($value)
+    {
+        $array = $this->getAll();
+
+        $key = array_search($value, $array);
+
+        if (isset($array[$key])) {
+            unset($array[$key]);
+        }
+
+        $this->save($array);
+
+        return $this;
+    }
+
+    private function save(array $array)
+    {
+        if (count($array) > 0) {
+            self::createDir(dirname($this->getFile()));
+            return self::write($this->getFile(), json_encode($array));
+        }
+
+        return false;
     }
 
     private static function read($path)
@@ -69,6 +126,15 @@ class Log
         }
 
         return fclose($handle);
+    }
+
+    public function unlink()
+    {
+        if (file_exists($this->getFile())) {
+            return unlink($this->getFile());
+        }
+
+        return file_exists($this->getFile());
     }
 
 }
