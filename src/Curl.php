@@ -5,7 +5,7 @@
  */
 class Curl
 {
-    private static function postJson($url, $json)
+    public static function postJson($url, $json)
     {
         $ch = curl_init();
 
@@ -23,7 +23,7 @@ class Curl
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if (substr($code, 0, 1) != 2) {
-            throw new Exception("Curl received response {$code}.");
+            throw new Exception("Curl received response {$code}. {$result}");
         }
 
         curl_close($ch);
